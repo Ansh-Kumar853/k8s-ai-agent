@@ -10,7 +10,7 @@ The first version intentionally keeps the analysis engine transparent: every fin
 - Detects common conditions such as repeated restarts, unavailable replicas, high CPU/memory usage, and failed probes.
 - Produces a prioritized incident summary with evidence and suggested checks.
 - Exposes health and readiness endpoints for container and Kubernetes probes.
-- Includes Docker, Kubernetes manifests, automated tests, and a CI workflow.
+- Includes Docker, Kubernetes manifests, an AWS EKS Terraform starter, automated tests, and a CI workflow.
 
 ## Architecture
 
@@ -83,6 +83,12 @@ kubectl port-forward service/kubesage 8000:8000
 ```
 
 The included manifests deploy the API only. They do not yet collect metrics from a live cluster or automatically restart workloads. Remediation advice is informational; it does not execute changes in your cluster.
+
+### AWS EKS with Terraform
+
+A starter EKS network and cluster configuration lives in `infra/terraform/aws/`. Read its README first, run `terraform plan`, and review AWS costs and endpoint access settings before applying. The default public API CIDR is intentionally called out for hardening; restrict it to trusted operator IPs before any real deployment.
+
+Note: the Kubernetes manifests use the image name `kubesage:local`, which is suitable only when that image is available to your cluster runtime. For EKS, build and push the image to Amazon ECR, then update the Deployment image field to the ECR image URI.
 
 ## API endpoints
 
