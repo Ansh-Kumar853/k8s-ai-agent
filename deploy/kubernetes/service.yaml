@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubesage
+  labels:
+    app: kubesage
+spec:
+  type: ClusterIP
+  selector:
+    app: kubesage
+  ports:
+    - name: http
+      port: 8000
+      targetPort: http
